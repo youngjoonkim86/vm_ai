@@ -1,0 +1,35 @@
+# Outlook 자동화 스크립트 예시
+# Microsoft 365 로그인 후 Outlook에서 메일 작업 수행
+
+steps:
+  - name: reach_login
+    type: agent
+    task: |
+      1) https://office.com 으로 이동하라.
+      2) 'Sign in' 버튼이 보이면 클릭하여 Microsoft 로그인 화면까지 이동하라.
+      3) 현재 상태를 아래 중 하나로 '한 단어'만 출력하여 끝내라:
+         - ready_for_login  (로그인 폼/Sign in 화면 도달)
+         - already_signed_in (이미 로그인 상태)
+         - dashboard_loaded  (Microsoft 365 대시보드가 보임)
+    wait_for_user_if:
+      contains: ready_for_login
+      message: "브라우저 창에서 직접 로그인(MFA 포함)을 완료한 뒤, 아래 '다음 스텝 실행'을 누르세요."
+
+  - name: open_outlook
+    type: agent
+    task: |
+      1) 앱 런처(점 9개)를 열고 'Outlook'을 클릭해 Outlook으로 이동하라.
+      2) Outlook이 열리면 받은 편지함(Inbox)으로 이동하라.
+      3) 마지막에 'outlook_ready' 한 단어로만 출력하라.
+
+  - name: user_task
+    type: agent
+    task: |
+      {prompt}   # 우측 입력창 텍스트로 치환됨
+
+  - name: summarize_today
+    type: agent
+    task: |
+      1) 받은 편지함에서 '{today}'에 받은 메일(보이는 범위)만 제목/발신자/시간을 목록으로 요약하라.
+      2) 메일 열람/삭제/전달/답장은 하지 마라(읽기 전용).
+      3) 결과는 Markdown 목록으로만 출력하라. 불필요한 코멘트 금지.

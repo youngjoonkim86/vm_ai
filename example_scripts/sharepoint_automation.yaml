@@ -1,0 +1,35 @@
+# SharePoint 자동화 스크립트 예시
+# SharePoint에서 문서 검색 및 정보 수집
+
+steps:
+  - name: reach_login
+    type: agent
+    task: |
+      1) https://sharepoint.com 으로 이동하라.
+      2) 로그인이 필요하면 'Sign in' 버튼을 클릭하라.
+      3) 현재 상태를 아래 중 하나로 '한 단어'만 출력하여 끝내라:
+         - ready_for_login  (로그인 폼/Sign in 화면 도달)
+         - already_signed_in (이미 로그인 상태)
+         - sharepoint_loaded  (SharePoint 사이트가 로드됨)
+    wait_for_user_if:
+      contains: ready_for_login
+      message: "SharePoint 로그인을 완료한 뒤, 아래 '다음 스텝 실행'을 누르세요."
+
+  - name: navigate_sharepoint
+    type: agent
+    task: |
+      1) SharePoint 사이트가 로드되면 사이트 구조를 파악하라.
+      2) 문서 라이브러리나 폴더 목록을 확인하라.
+      3) 마지막에 'sharepoint_ready' 한 단어로만 출력하라.
+
+  - name: search_documents
+    type: agent
+    task: |
+      {prompt}   # 우측 입력창 텍스트로 치환됨
+
+  - name: summarize_findings
+    type: agent
+    task: |
+      1) 찾은 문서들의 제목과 수정일을 정리하라.
+      2) 중요한 문서나 최근 업데이트된 파일을 강조하라.
+      3) 결과는 Markdown 테이블로 출력하라.

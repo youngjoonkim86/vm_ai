@@ -1,0 +1,35 @@
+# Microsoft Teams 자동화 스크립트 예시
+# Teams에서 채널 정보 조회 및 메시지 확인
+
+steps:
+  - name: reach_login
+    type: agent
+    task: |
+      1) https://teams.microsoft.com 으로 이동하라.
+      2) 로그인이 필요하면 'Sign in' 버튼을 클릭하라.
+      3) 현재 상태를 아래 중 하나로 '한 단어'만 출력하여 끝내라:
+         - ready_for_login  (로그인 폼/Sign in 화면 도달)
+         - already_signed_in (이미 로그인 상태)
+         - teams_loaded  (Teams 앱이 로드됨)
+    wait_for_user_if:
+      contains: ready_for_login
+      message: "Teams 로그인을 완료한 뒤, 아래 '다음 스텝 실행'을 누르세요."
+
+  - name: navigate_teams
+    type: agent
+    task: |
+      1) Teams 앱이 로드되면 일반 채널 목록을 확인하라.
+      2) 현재 활성화된 채널의 이름을 출력하라.
+      3) 마지막에 'teams_ready' 한 단어로만 출력하라.
+
+  - name: check_messages
+    type: agent
+    task: |
+      {prompt}   # 우측 입력창 텍스트로 치환됨
+
+  - name: summarize_activity
+    type: agent
+    task: |
+      1) 오늘({today})의 Teams 활동을 요약하라.
+      2) 새로운 메시지, 알림, 회의 등을 확인하라.
+      3) 결과는 간단한 목록으로 출력하라.
